@@ -1,8 +1,9 @@
 {
   "type": "module",
   "scripts": {
-    "test": "tsx day$Day/part$Part/index.ts < day$Day/part$Part/testInput.txt",
-    "start": "tsx day$Day/part$Part/index.ts < day$Day/part$Part/input.txt"
+    "test": "tsx day$Day/part$Part/index.ts < day$Day/testInput.txt",
+    "start": "tsx day$Day/part$Part/index.ts < day$Day/input.txt",
+    "time:start": "time tsx day$Day/part$Part/index.ts < day$Day/input.txt"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
