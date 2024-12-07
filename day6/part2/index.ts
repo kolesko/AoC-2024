@@ -64,6 +64,9 @@ function findObstructions() {
   return visitedPositions;
 }
 
+// finding loops by checking if the current position was already visited in same direction
+// before I had there array of object that represented the visited positions and it was slower
+// switching to a set of string and checking if the string is in the set is faster
 function findLoops(obstructions: Set<string>) {
   var loops = 0;
   const { startingPosition, width, height } = findStartingPosition();
@@ -111,10 +114,46 @@ function findLoops(obstructions: Set<string>) {
   return loops;
 }
 
+// faster becoause you don't need to store the visited positions, it's slowing down the program
+// only checking if the number of moves are bigger than free space "." + 1
+// + 1 is the overlaping check because if you go through all the free spaces and then go another round you are surely in loop
+function findLoopsFaster(obstructions: Set<string>) {
+  var loops = 0;
+  const { startingPosition, width, height } = findStartingPosition();
+  const directionsArray = Array.from(directions.values());
+  obstructions.forEach((obs) => {
+    const [ox, oy] = obs.split(",").map(Number);
+    var cp = { x: startingPosition.x, y: startingPosition.y };
+    var directionIndex = Array.from(directions.keys()).findIndex(
+      (dir) => dir === map[cp.y][cp.x]
+    );
+    var cd = directionsArray[directionIndex];
+    var moves = 0;
+    while (cp.x > 0 && cp.y > 0 && cp.x < width - 1 && cp.y < height - 1) {
+      if (moves === width * height - obstructions.size + 1) {
+        loops++;
+        break;
+      }
+      moves++;
+      if (
+        map[cp.y + cd.y][cp.x + cd.x] === "#" ||
+        (ox === cp.x + cd.x && oy === cp.y + cd.y)
+      ) {
+        directionIndex += 1;
+        cd = directionsArray[directionIndex % directionsArray.length];
+      } else {
+        cp.x += cd.x;
+        cp.y += cd.y;
+      }
+    }
+  });
+  return loops;
+}
+
 rl.on("close", () => {
   console.log("\n");
   const obstruction = findObstructions();
 
-  const loops = findLoops(obstruction);
+  const loops = findLoopsFaster(obstruction);
   console.log(`loops: ${loops}`);
 });
