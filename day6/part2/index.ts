@@ -114,7 +114,7 @@ function findLoops(obstructions: Set<string>) {
   return loops;
 }
 
-// faster becoause you don't need to store the visited positions, it's slowing down the program
+// faster because you don't need to store the visited positions, it's slowing down the program
 // only checking if the number of moves are bigger than free space "." + 1
 // + 1 is the overlaping check because if you go through all the free spaces and then go another round you are surely in loop
 function findLoopsFaster(obstructions: Set<string>) {
