@@ -1,11 +1,11 @@
-import process from "process";
-import readline from "readline";
+import { readFileSync } from "fs";
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+export default function main() {
+  const input = readFileSync(process.env.INPUT_PATH!, "utf-8");
 
-rl.on("line", (line) => {});
+  function parseInput() {}
 
-rl.on("close", () => {});
+  parseInput();
+}
+
+main();

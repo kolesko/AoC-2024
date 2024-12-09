@@ -1,60 +1,62 @@
-import process from "process";
-import readline from "readline";
+import { readFileSync } from "fs";
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+export default function main() {
+  const input = readFileSync(process.env.INPUT_PATH!, "utf-8");
+  let filesystem: string[] = [];
 
-let filesystem: string[] = [];
-
-rl.on("line", (line) => {
-  let ind = 0;
-  line.split("").forEach((char, i) => {
-    if (i % 2 === 0) {
-      for (let j = 0; j < parseInt(char); j++) {
-        filesystem.push(`${ind}`);
+  function parseInput() {
+    let ind = 0;
+    input.split("").forEach((char, i) => {
+      if (i % 2 === 0) {
+        for (let j = 0; j < parseInt(char); j++) {
+          filesystem.push(`${ind}`);
+        }
+        ind++;
+      } else {
+        for (let j = 0; j < parseInt(char); j++) {
+          filesystem.push("");
+        }
       }
-      ind++;
-    } else {
-      for (let j = 0; j < parseInt(char); j++) {
-        filesystem.push("");
-      }
-    }
-  });
-});
-
-function haveSpace() {
-  const lastInd = filesystem.findLastIndex((char) => char !== "");
-  return filesystem.slice(0, lastInd).some((char) => char === "");
-}
-
-function findFirstEmpty() {
-  return filesystem.findIndex((char) => char === "");
-}
-
-function rearange() {
-  while (haveSpace()) {
-    const firstEmptyInd = findFirstEmpty();
-    const lastDigitInd = filesystem.findLastIndex((char) => char !== "");
-
-    const tmp = filesystem[lastDigitInd];
-    filesystem[lastDigitInd] = filesystem[firstEmptyInd];
-    filesystem[firstEmptyInd] = tmp;
+    });
   }
-}
 
-function checksum() {
-  return filesystem.reduce((acc, char, i) => {
-    if (char === "") return acc;
-    acc += parseInt(char) * i;
-    return acc;
-  }, 0);
-}
+  // rl.on("line", (line) => {
+  //   parseInput(line);
+  // });
 
-rl.on("close", () => {
-  console.log("\n");
+  function haveSpace() {
+    const lastInd = filesystem.findLastIndex((char) => char !== "");
+    return filesystem.slice(0, lastInd).some((char) => char === "");
+  }
+
+  function findFirstEmpty() {
+    return filesystem.findIndex((char) => char === "");
+  }
+
+  function rearange() {
+    while (haveSpace()) {
+      const firstEmptyInd = findFirstEmpty();
+
+      const tmp = filesystem.pop();
+      if (tmp === "" || tmp === undefined) continue;
+      filesystem[firstEmptyInd] = tmp;
+    }
+  }
+
+  function checksum() {
+    return filesystem.reduce((acc, char, i) => {
+      if (char === "") return acc;
+      acc += parseInt(char) * i;
+      return acc;
+    }, 0);
+  }
+
+  parseInput();
   rearange();
 
-  console.log(checksum());
-});
+  const checkSum = checksum();
+  console.log(checkSum);
+  return 1;
+}
+
+main();

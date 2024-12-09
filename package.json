@@ -1,9 +1,12 @@
 {
   "type": "module",
   "scripts": {
-    "test": "tsx day$Day/part$Part/index.ts < day$Day/testInput.txt",
-    "start": "tsx day$Day/part$Part/index.ts < day$Day/input.txt",
-    "time:start": "time tsx day$Day/part$Part/index.ts < day$Day/input.txt"
+    "test": "INPUT_PATH=day$Day/testInput.txt tsx day$Day/part$Part/index.ts",
+    "test:old": "tsx day$Day/part$Part/index.ts  < day$Day/testInput.txt ",
+    "start": "INPUT_PATH=day$Day/input.txt tsx day$Day/part$Part/index.ts",
+    "start:old": "tsx day$Day/part$Part/index.ts  < day$Day/input.txt ",
+    "time:start": "time INPUT_PATH=day$Day/input.txt tsx day$Day/part$Part/index.ts",
+    "time:start:old": "time tsx day$Day/part$Part/index.ts < day$Day/input.txt"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
