@@ -20,10 +20,6 @@ export default function main() {
     });
   }
 
-  // rl.on("line", (line) => {
-  //   parseInput(line);
-  // });
-
   function haveSpace() {
     const lastInd = filesystem.findLastIndex((char) => char !== "");
     return filesystem.slice(0, lastInd).some((char) => char === "");
