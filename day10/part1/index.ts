@@ -1,7 +1,6 @@
 import { readFileSync } from "fs";
 
 type Point = { x: number; y: number };
-type PointWithVisited = { point: Point; visited: Set<string> };
 
 const input = readFileSync(process.env.INPUT_PATH!, "utf-8");
 const directions: Point[] = [
