@@ -11,5 +11,8 @@
   "devDependencies": {
     "@types/node": "^22.10.1",
     "tsx": "^4.19.2"
+  },
+  "dependencies": {
+    "lp_solve": "^0.2.18"
   }
 }
